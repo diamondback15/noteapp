@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import FormNote from '../components/FormNote'
+import FormNote from 'components/FormNote'
 
 export type Note = {
   titleField: string
@@ -15,12 +15,12 @@ export default function Home() {
   const [singleNote, setSingleNote] = useState<Note>()
 
   useEffect(() => {
-    setNoteList(JSON.parse(localStorage.getItem("note")) ?? [])
-    localStorage.setItem("note", JSON.stringify([]))
+    setNoteList(JSON.parse(window.sessionStorage.getItem("note")) ?? [])
+    window.sessionStorage.setItem("note", JSON.stringify([]))
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("note", JSON.stringify(noteList))
+    window.sessionStorage.setItem("note", JSON.stringify(noteList))
   }, [noteList]);
 
   const sanitizeString = (str) => {
@@ -46,7 +46,7 @@ export default function Home() {
   }
 
   return (
-    <div className="font-mono flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="font-mono flex flex-col items-center justify-center min-h-screen py-2 bg-slate-100">
       <Head>
         <title>Note App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -61,7 +61,7 @@ export default function Home() {
           {noteList?.length > 0 && noteList.sort((a, b) => b.dateModified - a.dateModified).map((v) =>
             <div
               key={v.slugField}
-              className="p-6 mt-6 text-left border w-full rounded-xl flex justify-between"
+              className="p-6 mt-6 text-left border w-full drop-shadow-md rounded-xl flex justify-between bg-white"
             >
               <div>
                 <Link href={v.slugField}>

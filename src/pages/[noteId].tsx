@@ -10,16 +10,12 @@ export default function SingleNote() {
   const [singleNote, setSingleNote] = useState<Note>()
 
   useEffect(() => {
-    setNoteList(JSON.parse(localStorage.getItem("note")))
-    //localStorage.setItem("note", JSON.stringify([]))
+    setNoteList(JSON.parse(window.sessionStorage.getItem("note")) ?? [])
   }, []);
 
   useEffect(() => {
     setSingleNote(noteList.find(v => v.slugField === noteId))
-  }, [noteList]);
-
-  useEffect(() => {
-    localStorage.setItem("note", JSON.stringify(noteList))
+    window.sessionStorage.setItem("note", JSON.stringify(noteList))
   }, [noteList]);
 
   const updateEntry = (e) => {
